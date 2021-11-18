@@ -1,0 +1,57 @@
+<h1 class="page-header">Connexion</h1>
+
+<div class="jumbotron">
+  <div *ngIf="formErrors" class="alert alert-danger">
+    <strong>
+      <span class="glyphicon glyphicon-warning-sign"></span>
+      Une erreur s'est produite lors de la tentative de connexion au système.
+    </strong>
+
+    <ul>
+      <li *ngFor="let error of formErrors">Email ou mot de passe invalide.</li>
+    </ul>
+  </div>
+
+
+  <form class="form-horizontal" [formGroup]="form" (ngSubmit)="signInUser()">
+  
+    <div class="form-group has-feedback" [ngClass]="formUtils.fieldClassForErrorOrSuccess('email')">
+      <label for="email" class="col-sm-4 control-label">Email</label>
+      <div class="col-sm-4">
+        <input type="email" class="form-control" id="email" formControlName="email">
+        <span class="glyphicon form-control-feedback" [ngClass]="formUtils.iconClassForErrorOrSuccess('email')"></span>
+        
+        <div *ngIf="formUtils.showFieldError('email')" class="text-danger">
+          <div *ngIf="form.get('email').errors.required">un e-mail est requis</div>
+          <div *ngIf="form.get('email').errors.email">l'email saisi est invalide</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="form-group has-feedback" [ngClass]="formUtils.fieldClassForErrorOrSuccess('password')">
+      <label for="password" class="col-sm-4 control-label">
+        Mot de passe</label>
+      <div class="col-sm-4">
+        <input type="password" class="form-control" id="password" formControlName="password">
+        <span class="glyphicon form-control-feedback" [ngClass]="formUtils.iconClassForErrorOrSuccess('password')"></span>
+        
+        <div *ngIf="formUtils.showFieldError('password')" class="text-danger">
+          <div *ngIf="form.get('password').errors.required">le mot de passe est obligatoire</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-8">
+        <button [disabled]="form.invalid || submitted" type="submit" class="btn btn-primary">Connexion</button>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-8">
+        Si vous n'avez pas de compte,
+        <a routerLink="/sign-up">cliquez-ici</a>
+      </div>
+    </div>
+  </form>
+</div>

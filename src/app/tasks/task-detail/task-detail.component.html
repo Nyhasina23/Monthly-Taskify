@@ -1,0 +1,52 @@
+<h1 class="page-header">Détails de la tâche: {{ task.title }}</h1>
+
+<form [formGroup]="form" (ngSubmit)="updateTask()">
+  <div class="row">
+    <!-- taskTitle -->
+    <div class="form-group col-md-6 has-feedback" [ngClass]="formUtils.fieldClassForErrorOrSuccess('title')">
+      <label for="title" class="control-label">Titre</label>
+      <input type="text" formControlName="title" id="title" class="form-control">
+      <span class="glyphicon form-control-feedback" [ngClass]="formUtils.iconClassForErrorOrSuccess('title')"></span>
+            
+      <div *ngIf="formUtils.showFieldError('title')" class="text-danger">
+        <div *ngIf="form.get('title').errors.required">
+          le titre est obligatoire</div>
+        <div *ngIf="form.get('title').errors.minlength">le titre doit avoir au moins 2 caractères</div>
+        <div *ngIf="form.get('title').errors.maxlength">
+          le titre doit avoir un maximum de 255 caractères</div>
+      </div>
+    </div>
+  
+    <!-- taskDeadline -->
+    <div class="form-group col-md-3 has-feedback" [ngClass]="formUtils.fieldClassForErrorOrSuccess('deadline')">
+      <label for="deadline" class="control-label">Date limite</label>
+      <input type="text" formControlName="deadline" id="deadline" class="form-control">
+      <span class="glyphicon form-control-feedback" [ngClass]="formUtils.iconClassForErrorOrSuccess('deadline')"></span>
+      <div *ngIf="formUtils.showFieldError('deadline')" class="text-danger">
+        le délai est obligatoire</div>
+    </div>
+
+    <!-- taskDone -->
+    <div class="form-group col-md-3 has-feedback" [ngClass]="formUtils.fieldClassForErrorOrSuccess('done')">
+      <label for="done" class="control-label">Situation</label>
+      <select class="form-control" id="done" formControlName="done">
+        <option *ngFor="let option of taskDoneOptions" [value]="option.value">{{ option.text }}</option>
+      </select>
+      <span class="glyphicon form-control-feedback" [ngClass]="formUtils.iconClassForErrorOrSuccess('done')"></span>
+      <div *ngIf="formUtils.showFieldError('done')" class="text-danger">Situation Obligatoire</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- taskDescription -->
+    <div class="form-group col-md-12">
+      <label for="description" class="control-label">Description</label>
+      <textarea formControlName="description" id="description" class="form-control" rows="4"></textarea>
+    </div>
+  </div>
+
+  <button [disabled]="form.invalid" type="submit" class="btn btn-success">Mettre à jour</button>
+  <button class="btn btn-default" type="button" (click)="goBack()">Revenir</button>
+
+  <!-- <pre>{{ form.value | json }}</pre> -->
+</form>

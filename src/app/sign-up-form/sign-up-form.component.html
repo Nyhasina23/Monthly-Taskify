@@ -1,0 +1,87 @@
+<h1 class="page-header">
+  Inscription</h1>
+
+<div class="jumbotron">
+  <div *ngIf="formErrors" class="alert alert-danger">
+    <strong>
+      <span class="glyphicon glyphicon-warning-sign"></span>
+      Une erreur s'est produite lors de la tentative de création de votre compte sur le système.
+    </strong>
+
+    <ul>
+      <li *ngFor="let error of formErrors">Cet email est déjà utilisé</li>
+    </ul>
+  </div>
+
+
+  <form class="form-horizontal" [formGroup]="form" (ngSubmit)="signUpUser()">
+  
+    <div class="form-group has-feedback" [ngClass]="formUtils.fieldClassForErrorOrSuccess('name')">
+      <label for="name" class="col-sm-4 control-label">Nom</label>
+      <div class="col-sm-4">
+        <input type="text" class="form-control" id="name" formControlName="name">
+        <span class="glyphicon form-control-feedback" [ngClass]="formUtils.iconClassForErrorOrSuccess('name')"></span>
+
+        <div *ngIf="formUtils.showFieldError('name')" class="text-danger">
+          <div *ngIf="form.get('name').errors.required">le nom est obligatoire</div>
+          <div *ngIf="form.get('name').errors.minlength">le nom doit comporter au moins 5 caractères</div>
+          <div *ngIf="form.get('name').errors.maxlength">
+            le nom doit avoir un maximum de 100 caractères</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="form-group has-feedback" [ngClass]="formUtils.fieldClassForErrorOrSuccess('email')">
+      <label for="email" class="col-sm-4 control-label">Email</label>
+      <div class="col-sm-4">
+        <input type="email" class="form-control" id="email" formControlName="email">
+        <span class="glyphicon form-control-feedback" [ngClass]="formUtils.iconClassForErrorOrSuccess('email')"></span>
+        
+        <div *ngIf="formUtils.showFieldError('email')" class="text-danger">
+          <div *ngIf="form.get('email').errors.required">un e-mail est requis</div>
+          <div *ngIf="form.get('email').errors.email">l'email saisi est invalide</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="form-group has-feedback" [ngClass]="formUtils.fieldClassForErrorOrSuccess('password')">
+      <label for="password" class="col-sm-4 control-label">Mot de passe</label>
+      <div class="col-sm-4">
+        <input type="password" class="form-control" id="password" formControlName="password">
+        <span class="glyphicon form-control-feedback" [ngClass]="formUtils.iconClassForErrorOrSuccess('password')"></span>
+        
+        <div *ngIf="formUtils.showFieldError('password')" class="text-danger">
+          <div *ngIf="form.get('password').errors.required">
+            le mot de passe est obligatoire</div>
+          <div *ngIf="form.get('password').errors.minlength">Mot de passe doit être d'au moins 8 caractères</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="form-group has-feedback" [ngClass]="formUtils.fieldClassForErrorOrSuccess('passwordConfirmation')">
+      <label for="passwordConfirmation" class="col-sm-4 control-label">Confirmer le mot de passe</label>
+      <div class="col-sm-4">
+        <input type="password" class="form-control" id="passwordConfirmation" formControlName="passwordConfirmation">
+        <span class="glyphicon form-control-feedback" [ngClass]="formUtils.iconClassForErrorOrSuccess('passwordConfirmation')"></span>
+        
+        <div *ngIf="formUtils.showFieldError('passwordConfirmation')" class="text-danger">
+          <div *ngIf="form.get('passwordConfirmation').errors.required">la confirmation du mot de passe est obligatoire</div>
+          <div *ngIf="form.get('passwordConfirmation').errors.mismatch">le mot de passe et la confirmation du mot de passe ne correspondent pas</div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-8">
+        <button [disabled]="form.invalid || submitted" type="submit" class="btn btn-primary">Créer un compte</button>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <div class="col-sm-offset-4 col-sm-8">
+        Si vous avez déjà un compte,
+        <a routerLink="/sign-in">cliquez ici pour se connecter</a>
+      </div>
+    </div>
+  </form>
+</div>
